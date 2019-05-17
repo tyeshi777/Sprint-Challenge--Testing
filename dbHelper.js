@@ -6,13 +6,13 @@ module.exports = {
 };
 
 function retrieve() {
-  return db("users");
+  return db("games");
 }
 
-function insert(user) {
-  return db("users")
-    .insert(user)
-    .then(ids => {
-      return getById(ids[0]);
-    });
+async function insert(game) {
+  const [id] = await db("games").insert(game, "id"); // second parameter is for heroku and production codes
+
+  return db("games")
+    .where({ id })
+    .first();
 }
